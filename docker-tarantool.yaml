@@ -1,0 +1,21 @@
+version: '3'
+services:
+  tarantool:
+      hostname: tarantool
+      container_name: tarantool
+      image: tarantool/tarantool:2.5.1
+      environment:
+          TARANTOOL_USER_NAME: ${TARANTOOL_USER_NAME}
+          TARANTOOL_USER_PASSWORD: ${TARANTOOL_USER_PASSWORD}
+      ports:
+        - "3301:3301"
+      volumes:
+        - /development/achieve-new/tarantool-data:/var/lib/tarantool
+      networks:
+        - achieve
+
+networks:
+  achieve:
+    external:
+      name: achieve_network_prod
+
