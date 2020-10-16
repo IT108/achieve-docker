@@ -16,6 +16,7 @@ jobs:
       env:
         TARANTOOL_USER_NAME: ${{ secrets.TARANTOOL_USER_NAME }}
         TARANTOOL_USER_PASSWORD: ${{ secrets.TARANTOOL_USER_PASSWORD }}
+        BROKER_HOST: ${{ secrets.BROKER_HOST }}
       run: |
         docker-compose -f docker-kafka.yaml up -d
         docker-compose -f docker-tarantool.yaml up -d
