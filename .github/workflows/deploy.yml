@@ -8,32 +8,14 @@ on:
 
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: it108/achieve-docker/achieve-docker
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_TOKEN }}
-        registry: docker.pkg.github.com
-        tags: "latest,${{ github.SHA }}"
-
   deploy:
     runs-on: whale
-    needs: build
     steps:
     - uses: actions/checkout@master
-    - name: Login to packages
-      run: |
-        echo  ${{ secrets.REGISTRY_TOKEN }} |  docker login docker.pkg.github.com -u ${{ github.ACTOR }} --password-stdin
     - name: deploy
       env:
         TARANTOOL_USER_NAME: ${{ secrets.TARANTOOL_USER_NAME }}
         TARANTOOL_USER_PASSWORD: ${{ secrets.TARANTOOL_USER_PASSWORD }}
       run: |
         docker-compose -f docker-kafka.yaml up -d
-           |
         docker-compose -f docker-tarantool.yaml up -d
